@@ -57,32 +57,10 @@
   .ev-month { font-weight: 500; color: var(--text); }
   .goal-sub { font-size: 12px; color: var(--text-3); margin-bottom: 20px; }
   .goal-badge { font-size: 11px; font-family: 'Avenir Next', 'Avenir', monospace; background: var(--surface2); border-radius: 6px; padding: 3px 8px; color: var(--text-2); white-space: nowrap; }
-  .bullets-header { font-size: 13px; color: var(--text-2); margin-bottom: 12px; }
-  .draft-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 20px 24px; margin-top: 16px; }
-  .draft-title { font-size: 11px; font-weight: 600; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 14px; }
-  .draft-bullet { font-size: 13px; color: var(--text); padding: 8px 0; border-bottom: 1px solid var(--border); line-height: 1.6; display: flex; gap: 8px; }
-  .draft-bullet:last-child { border-bottom: none; padding-bottom: 0; }
-  .draft-bullet::before { content: "•"; color: var(--text-3); flex-shrink: 0; }
-  .edit-label { font-size: 11px; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 6px; margin-top: 16px; }
   textarea { width: 100%; font-family: 'Avenir Next', 'Avenir', monospace; font-size: 12px; border: 1px solid var(--border-strong); border-radius: var(--radius); padding: 12px; background: var(--surface2); color: var(--text); resize: vertical; min-height: 140px; outline: none; line-height: 1.6; }
   textarea:focus { border-color: rgba(0,0,0,0.3); }
-  .copy-btn { margin-top: 8px; font-family: 'Avenir Next', 'Avenir', 'Century Gothic', sans-serif; font-size: 12px; font-weight: 500; padding: 7px 16px; border: 1px solid var(--border-strong); border-radius: 6px; background: var(--surface); cursor: pointer; color: var(--text); }
-  .copy-btn:hover { background: var(--surface2); }
-  .copy-btn.copied { background: #dcfce7; border-color: #16a34a; color: #15803d; }
-  .upload-zone { border: 2px dashed var(--border-strong); border-radius: var(--radius-lg); padding: 24px; text-align: center; cursor: pointer; transition: border-color 0.15s, background 0.15s; }
-  .upload-zone:hover, .upload-zone.drag { border-color: var(--blue); background: rgba(37,99,235,0.03); }
-  .upload-zone.done { border-color: var(--green); background: rgba(22,163,74,0.03); }
-  .upload-zone.error { border-color: var(--red); background: rgba(220,38,38,0.03); }
-  .upload-icon { font-size: 24px; margin-bottom: 8px; }
-  .upload-label { font-size: 13px; font-weight: 500; color: var(--text); margin-bottom: 4px; }
-  .upload-sub { font-size: 12px; color: var(--text-3); }
-  .upload-status { font-size: 12px; margin-top: 8px; font-family: 'Avenir Next', 'Avenir', monospace; }
   .status-ok { color: var(--green); }
   .status-err { color: var(--red); }
-  .process-btn { margin-top: 16px; font-family: 'Avenir Next', 'Avenir', 'Century Gothic', sans-serif; font-size: 13px; font-weight: 500; padding: 9px 20px; border: 1px solid var(--border-strong); border-radius: 6px; background: var(--text); color: #fff; cursor: pointer; }
-  .process-btn:hover { opacity: 0.85; }
-  .process-btn:disabled { opacity: 0.35; cursor: not-allowed; }
-  .month-input { font-family: 'Avenir Next', 'Avenir', 'Century Gothic', sans-serif; font-size: 13px; border: 1px solid var(--border-strong); border-radius: 6px; padding: 7px 12px; background: var(--surface2); color: var(--text); outline: none; }
 </style>
 </head>
 <body>
@@ -92,21 +70,13 @@
     <h1>Flex Portfolio Dashboard</h1>
     <p id="header-sub">FY2026 · Aug 2025 – Mar 2026 · 8 months of data</p>
   </div>
-  <div style="display:flex;align-items:center;gap:12px;">
-    <label style="display:flex;align-items:center;gap:7px;font-size:12px;color:var(--text-2);cursor:pointer;user-select:none;">
-      <input type="checkbox" id="mode-toggle" checked onchange="toggleMode()" style="cursor:pointer;accent-color:var(--text);">
-      Admin mode
-    </label>
-    <span class="fy-badge">FY2026</span>
-  </div>
+  <span class="fy-badge">FY2026</span>
 </div>
 
 <nav class="nav">
   <button class="nav-btn active" onclick="showTab('overview',this)">Portfolio overview</button>
   <button class="nav-btn" onclick="showTab('sites',this)">Site view</button>
   <button class="nav-btn" onclick="showTab('goal',this)">Flex goals tracker</button>
-  <button class="nav-btn" onclick="showTab('bullets',this)">Draft bullets</button>
-  <button class="nav-btn" onclick="showTab('upload',this)">Upload data</button>
 </nav>
 
 <div class="main">
@@ -214,69 +184,11 @@
 
 
 
-<div id="tab-bullets" class="tab-panel">
-  <div style="max-width:700px;">
-    <p class="bullets-header">Select a reporting month to auto-generate draft significant-change bullets. Review and edit before use.</p>
-    <select id="buM" onchange="draftB()" style="font-size:13px;padding:7px 12px;">
-      <option value="">-- select month --</option>
-      <option value="1">Sep 2025</option>
-      <option value="2">Oct 2025</option>
-      <option value="3">Nov 2025</option>
-      <option value="4">Dec 2025</option>
-      <option value="5">Jan 2026</option>
-      <option value="6">Feb 2026</option>
-      <option value="7">Mar 2026</option>
-    </select>
-    <div id="bu-out"></div>
-    <div id="bu-edit" style="display:none;">
-      <div class="edit-label">Edit for your email</div>
-      <textarea id="bu-txt"></textarea>
-      <button class="copy-btn" id="copy-btn" onclick="copyBullets()">Copy to clipboard</button>
-    </div>
-  </div>
-</div>
-
-<div id="tab-upload" class="tab-panel">
-  <div style="max-width:600px;">
-    <p style="font-size:13px;color:var(--text-2);margin-bottom:20px;">Upload the two monthly raw report CSVs to add a new month to the dashboard. Remove any offline floors from the room report before uploading.</p>
-
-    <div style="display:flex;flex-direction:column;gap:12px;margin-bottom:20px;">
-      <div>
-        <div style="font-size:12px;font-weight:500;color:var(--text);margin-bottom:6px;text-transform:uppercase;letter-spacing:0.05em;">Month</div>
-        <input type="text" id="up-month" class="month-input" placeholder="e.g. Apr 2026" style="width:160px;">
-      </div>
-      <div>
-        <div style="font-size:12px;font-weight:500;color:var(--text);margin-bottom:6px;text-transform:uppercase;letter-spacing:0.05em;">Raw Room Report</div>
-        <div class="upload-zone" id="zone-room" ondragover="dragOver(event,'zone-room')" ondragleave="dragLeave('zone-room')" ondrop="dropFile(event,'room')" onclick="document.getElementById('file-room').click()">
-          <div class="upload-icon">&#x1f4c4;</div>
-          <div class="upload-label">Drop Raw Room Report CSV here</div>
-          <div class="upload-sub">or click to browse</div>
-          <div class="upload-status" id="status-room"></div>
-        </div>
-        <input type="file" id="file-room" accept=".csv" style="display:none;" onchange="loadFile(this,'room')">
-      </div>
-      <div>
-        <div style="font-size:12px;font-weight:500;color:var(--text);margin-bottom:6px;text-transform:uppercase;letter-spacing:0.05em;">Employee Location Report</div>
-        <div class="upload-zone" id="zone-emp" ondragover="dragOver(event,'zone-emp')" ondragleave="dragLeave('zone-emp')" ondrop="dropFile(event,'emp')" onclick="document.getElementById('file-emp').click()">
-          <div class="upload-icon">&#x1f4c4;</div>
-          <div class="upload-label">Drop Employee Location Report CSV here</div>
-          <div class="upload-sub">or click to browse</div>
-          <div class="upload-status" id="status-emp"></div>
-        </div>
-        <input type="file" id="file-emp" accept=".csv" style="display:none;" onchange="loadFile(this,'emp')">
-      </div>
-    </div>
-
-    <button class="process-btn" id="process-btn" onclick="processUpload()" disabled>Add month to dashboard</button>
-    <div id="process-status" style="margin-top:12px;font-size:12px;font-family:'Avenir Next', 'Avenir',monospace;"></div>
-  </div>
-</div>
 
 </div>
 
 <script>
 const MO = [['Aug','2025'],['Sep','2025'],['Oct','2025'],['Nov','2025'],['Dec','2025'],['Jan','2026'],['Feb','2026'],['Mar','2026']];
-const MOFULL = ['Aug 2025','Sep 2025','Oct 2025','Nov 2025','Dec 2025','Jan 2026','Feb 2026','Mar 2026'];
 const MO_ALL = [['Aug','2025'],['Sep','2025'],['Oct','2025'],['Nov','2025'],['Dec','2025'],['Jan','2026'],['Feb','2026'],['Mar','2026'],['Apr','2026'],['May','2026'],['Jun','2026'],['Jul','2026']];
 
 const D = {
@@ -313,21 +225,6 @@ const EVTS = [
   {i:5,l:'F',month:'Jan 2026',text:'PUN new site PUN-02 (std cap 53→63); SDG & TOR +14 flex setup seats; BAN std cap −27'},
   {i:6,l:'G',month:'Feb 2026',text:'PUN-02 moves completed; MTV-22 & MTV-14 building/floor assignments updated'},
 ];
-
-function toggleMode(){
-  const admin = document.getElementById('mode-toggle').checked;
-  ['bullets','upload'].forEach(tab => {
-    const btn = document.querySelector(`button[onclick="showTab('${tab}',this)"]`);
-    if (btn) btn.style.display = admin ? '' : 'none';
-    const panel = document.getElementById('tab-' + tab);
-    if (panel && !admin && panel.classList.contains('active')) {
-      panel.classList.remove('active');
-      document.getElementById('tab-overview').classList.add('active');
-      document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-      document.querySelector('.nav-btn').classList.add('active');
-    }
-  });
-}
 
 function showTab(id,btn){
   document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
@@ -473,66 +370,8 @@ function uSt(){
 }
 uSt();
 
-function draftB(){
-  const idx=parseInt(document.getElementById('buM').value);
-  if(!idx)return;
-  const prev=idx-1;
-  const bullets=[];
-  const fpD=D.ptf.fp[idx]-D.ptf.fp[prev];
-  const pfpD=D.ptf.pfp[idx]-D.ptf.pfp[prev];
-  const fsD=D.ptf.fs[idx]-D.ptf.fs[prev];
-  const pfsD=D.ptf.pfs[idx]-D.ptf.pfs[prev];
-  const asD=D.ptf.as[idx]-D.ptf.as[prev];
 
-  const dir=fpD>=0?'increased':'decreased';
-  const pfpStr=pfpD!==0?` (${pfpD>0?'+':''}${pfpD}pt to ${D.ptf.pfp[idx]}%)`:'';
-  bullets.push(`Flex seating people ${dir} to ${D.ptf.fp[idx].toLocaleString()}${pfpStr}, a net change of ${fpD>0?'+':''}${fpD.toLocaleString()} individuals`);
 
-  const bkd=[];
-  Object.keys(SC).forEach(s=>{if(!D[s])return;const d=D[s].fs[idx]-D[s].fs[prev];if(d!==0)bkd.push(`${s} ${d>0?'+':''}${d}`);});
-  bullets.push(`Flex setup seats ${fsD>=0?'changed by +':'changed by '}${fsD} portfolio-wide${bkd.length?' ('+bkd.join(', ')+')':' (no site changes)'}`);
-
-  bullets.push(`Assigned capacity changed by ${asD>0?'+':''}${asD} seats`);
-
-  const s7cur  = Math.round(SIG7.reduce((a,s)=>a+D[s].fs[idx],0)  / SIG7.reduce((a,s)=>a+D[s].std[idx],0)  * 100);
-  const s7prev = Math.round(SIG7.reduce((a,s)=>a+D[s].fs[prev],0) / SIG7.reduce((a,s)=>a+D[s].std[prev],0) * 100);
-  const s7D=s7cur-s7prev;
-  const gap=85-s7cur;
-  const mLeft=12-(idx+1);
-  const pfpCur=D.ptf.pfp[idx], pfpPrev=D.ptf.pfp[prev];
-  bullets.push(`Places leadership goal — Sig 7 % flex seating: ${s7cur}%${s7D!==0?' ('+( s7D>0?'+':'')+s7D+'pt)':' (unchanged)'}, ${gap}pt${gap>0?' below':' at or above'} the 85% FY2026 target with ${mLeft} month${mLeft!==1?'s':''} remaining`);
-  const pfpGap = 85 - pfpCur;
-  bullets.push(`Places leadership goal — Portfolio % flex people: ${pfpCur}%${pfpD!==0?' ('+( pfpD>0?'+':'')+pfpD+'pt this month)':' (unchanged)'}, ${pfpGap>0?pfpGap+'pt below':' at or above'} the 85% FY2026 target`);
-
-  const siteOrder=['ATL','BAN','DUB','LON','LAX','MTV','NYC','PLN','PUN','RNO','SDG','SFO','SDY','TLV','TOR','TCS','WDC'];
-  siteOrder.forEach(s=>{
-    if(!D[s])return;
-    const hcD=D[s].hc[idx]-D[s].hc[prev];
-    const stdD=D[s].std[idx]-D[s].std[prev];
-    const sPfsD=D[s].pfs[idx]-D[s].pfs[prev];
-    const parts=[];
-    if(stdD!==0) parts.push(`standard capacity ${stdD>0?'+':''}${stdD} to ${D[s].std[idx].toLocaleString()}`);
-    if(sPfsD!==0) parts.push(`% flex setup seats ${sPfsD>0?'+':''}${sPfsD}pt to ${D[s].pfs[idx]}%`);
-    if(Math.abs(hcD)>=30) parts.push(`headcount ${hcD>0?'+':''}${hcD} to ${D[s].hc[idx].toLocaleString()}`);
-    if(parts.length) bullets.push(`${s}: ${parts.join('; ')}`);
-  });
-
-  document.getElementById('bu-out').innerHTML=`<div class="draft-card"><div class="draft-title">${MOFULL[idx]} — draft significant changes</div>${bullets.map(b=>`<div class="draft-bullet">${b}</div>`).join('')}</div>`;
-  document.getElementById('bu-edit').style.display='block';
-  document.getElementById('bu-txt').value=bullets.map(b=>'• '+b).join('\n');
-  document.getElementById('copy-btn').textContent='Copy to clipboard';
-  document.getElementById('copy-btn').className='copy-btn';
-}
-
-function copyBullets(){
-  navigator.clipboard.writeText(document.getElementById('bu-txt').value).then(()=>{
-    const btn=document.getElementById('copy-btn');
-    btn.textContent='Copied!';btn.className='copy-btn copied';
-    setTimeout(()=>{btn.textContent='Copy to clipboard';btn.className='copy-btn';},2000);
-  });
-}
-
-const uploadedFiles = {room: null, emp: null};
 
 function parseCSV(text) {
   const lines = text.split(/\r?\n/);
@@ -550,182 +389,12 @@ function parseCSV(text) {
   return rows;
 }
 
-function dragOver(e, id) { e.preventDefault(); document.getElementById(id).classList.add('drag'); }
-function dragLeave(id) { document.getElementById(id).classList.remove('drag'); }
 
-function dropFile(e, type) {
-  e.preventDefault();
-  dragLeave('zone-' + type);
-  const file = e.dataTransfer.files[0];
-  if (file) readFile(file, type);
-}
 
-function loadFile(input, type) {
-  if (input.files[0]) readFile(input.files[0], type);
-}
 
-function readFile(file, type) {
-  const reader = new FileReader();
-  reader.onload = e => {
-    const rows = parseCSV(e.target.result);
-    if (!rows) {
-      document.getElementById('status-' + type).innerHTML = '<span class="status-err">Could not parse file — check format</span>';
-      document.getElementById('zone-' + type).className = 'upload-zone error';
-      return;
-    }
-    uploadedFiles[type] = rows;
-    document.getElementById('status-' + type).innerHTML = `<span class="status-ok">✓ ${file.name} — ${rows.length.toLocaleString()} rows</span>`;
-    document.getElementById('zone-' + type).className = 'upload-zone done';
-    checkReady();
-  };
-  reader.readAsText(file);
-}
 
-function checkReady() {
-  const month = document.getElementById('up-month').value.trim();
-  document.getElementById('process-btn').disabled = !(uploadedFiles.room && uploadedFiles.emp && month);
-}
-document.getElementById('up-month').addEventListener('input', checkReady);
 
-function computeMetrics(roomRows, empRows) {
-  const SITE_MAP = {'LOS':'LAX'};
-  const rooms = {};
-  const emp = {};
 
-  for (const row of roomRows) {
-    let site = (row['Site Code'] || '').trim();
-    if (!site) continue;
-    site = SITE_MAP[site] || site;
-    const metro     = (row['Metro'] || '').trim();
-    const bldgName  = (row['Building Name'] || '').trim();
-    const spaceStyle= (row['Space Style'] || '').trim();
-    const flexSetup = (row['Flex Setup'] || '').trim();
-    if (metro === 'Projects') continue;
-    if (bldgName.includes('Project')) continue;
-    if (spaceStyle !== 'Primary Workpoint') continue;
-    if (!rooms[site]) rooms[site] = {std:0, fs:0};
-    rooms[site].std++;
-    if (flexSetup === 'Flex Setup') rooms[site].fs++;
-  }
-
-  for (const row of empRows) {
-    let site = (row['Site Code'] || '').trim();
-    if (!site) continue;
-    site = SITE_MAP[site] || site;
-    const workStyle = (row['Work Style'] || '').trim();
-    const roomLabel = (row['Room Label'] || '').trim();
-    if (!emp[site]) emp[site] = {hc:0, fp:0};
-    if (roomLabel && roomLabel !== "''") emp[site].hc++;
-    if (workStyle === 'Flex') emp[site].fp++;
-  }
-
-  const allSites = new Set([...Object.keys(rooms), ...Object.keys(emp)]);
-  const result = {};
-  let ptf = {std:0, fs:0, hc:0, fp:0};
-
-  for (const site of allSites) {
-    const r = rooms[site] || {std:0, fs:0};
-    const e = emp[site]   || {hc:0,  fp:0};
-    const pfs = r.std > 0 ? Math.round(r.fs / r.std * 100) : 0;
-    const pfp = e.hc  > 0 ? Math.round(e.fp / e.hc  * 100) : 0;
-    result[site] = {std:r.std, fs:r.fs, pfs, hc:e.hc, fp:e.fp, pfp};
-    ptf.std += r.std; ptf.fs += r.fs; ptf.hc += e.hc; ptf.fp += e.fp;
-  }
-
-  result['_ptf'] = {
-    std: ptf.std, fs: ptf.fs,
-    pfs: ptf.std > 0 ? Math.round(ptf.fs / ptf.std * 100) : 0,
-    hc:  ptf.hc,  fp: ptf.fp,
-    pfp: ptf.hc  > 0 ? Math.round(ptf.fp / ptf.hc  * 100) : 0
-  };
-
-  return result;
-}
-
-function processUpload() {
-  const month = document.getElementById('up-month').value.trim();
-  const statusEl = document.getElementById('process-status');
-  statusEl.innerHTML = 'Computing metrics...';
-
-  try {
-    const metrics = computeMetrics(uploadedFiles.room, uploadedFiles.emp);
-    const ptf = metrics['_ptf'];
-
-    // Append to MO and MOFULL
-    const mParts = month.split(' ');
-    MO.push([mParts[0], mParts[1]]);
-    MOFULL.push(month);
-
-    // Append portfolio
-    const ptfKeys = ['hc','fp','fs','std','pfp','pfs'];
-    ptfKeys.forEach(k => { if (D.ptf[k]) D.ptf[k].push(ptf[k] || 0); });
-    // gf and as not computed from raw — carry forward last known
-    D.ptf.gf.push(D.ptf.gf[D.ptf.gf.length-1]);
-    D.ptf.as.push(D.ptf.as[D.ptf.as.length-1]);
-
-    // Append per-site
-    const allSites = Object.keys(SC);
-    allSites.forEach(site => {
-      if (!D[site]) return;
-      const m = metrics[site] || {std:0,fs:0,pfs:0,hc:0,fp:0,pfp:0};
-      ['hc','fp','pfp','fs','pfs','std'].forEach(k => { if(D[site][k]) D[site][k].push(m[k]||0); });
-      D[site].gf.push(D[site].gf[D[site].gf.length-1]);
-      D[site].as.push(D[site].as[D[site].as.length-1]);
-    });
-
-    // Update bullets month selector
-    const buSel = document.getElementById('buM');
-    const idx = MO.length - 1;
-    const opt = document.createElement('option');
-    opt.value = String(idx);
-    opt.textContent = month;
-    buSel.appendChild(opt);
-
-    // Update header subtitle
-    document.getElementById('header-sub').textContent =
-      `FY2026 · Aug 2025 – ${month} · ${MO.length} months of data`;
-
-    // Rebuild all charts
-    rebuildAllCharts();
-
-    statusEl.innerHTML = `<span class="status-ok">✓ ${month} added successfully — ${MO.length} months now in dashboard</span>`;
-    document.getElementById('process-btn').disabled = true;
-    uploadedFiles.room = null; uploadedFiles.emp = null;
-    ['room','emp'].forEach(t => {
-      document.getElementById('zone-'+t).className = 'upload-zone';
-      document.getElementById('status-'+t).innerHTML = '';
-    });
-    document.getElementById('up-month').value = '';
-
-  } catch(err) {
-    statusEl.innerHTML = `<span class="status-err">Error: ${err.message}</span>`;
-  }
-}
-
-function rebuildAllCharts() {
-  const nf = D.ptf.std.map((v,i) => v - D.ptf.fs[i]);
-  ovChart.data.labels = MO;
-  ovChart.data.datasets[0].data = D.ptf.fs;
-  ovChart.data.datasets[1].data = nf;
-  ovChart.data.datasets[2].data = D.ptf.pfs;
-  ovChart.data.datasets[3].data = D.ptf.pfp;
-  ovChart.update();
-
-  const g1Labels = [...MO_ALL];
-  const g1Sig7 = MO.map((_,i) => Math.round(SIG7.reduce((a,s)=>a+D[s].fs[i],0) / SIG7.reduce((a,s)=>a+D[s].std[i],0) * 100));
-  const g1Ptf  = MO.map((_,i) => D.ptf.pfs[i]);
-  goChart.data.labels = g1Labels;
-  goChart.data.datasets[0].data = [...g1Sig7, ...Array(MO_ALL.length - MO.length).fill(null)];
-  goChart.data.datasets[1].data = [...g1Ptf,  ...Array(MO_ALL.length - MO.length).fill(null)];
-  goChart.data.datasets[2].data = [...Array(MO.length-1).fill(null), g1Sig7[g1Sig7.length-1], ...Array(MO_ALL.length - MO.length).fill(null).map((_,i) => g1Sig7[g1Sig7.length-1] + i + 1).slice(0, MO_ALL.length - MO.length)];
-  goChart.update();
-
-  goPfpChart.data.labels = g1Labels;
-  goPfpChart.data.datasets[0].data = [...D.ptf.pfp, ...Array(MO_ALL.length - MO.length).fill(null)];
-  goPfpChart.update();
-
-  if (stCh) uSt();
-}
 
 </script>
 </body>
